@@ -27,7 +27,9 @@ if len(sys.argv) < 2:
 	print ('No input file specified.')
 	sys.exit()
 
-name, extension = os.path.splitext(sys.argv[1])
+path, fileName = os.path.split(sys.argv[1])
+name, extension = os.path.splitext(fileName)
+print("path:", path, "fileName:", fileName, "name:", name, "extension:", extension)
 
 outputDir = ''
 if len(sys.argv) > 2:
@@ -89,12 +91,15 @@ for asset in mapping:
 	destDir = os.path.join(outputDir, path)
 	destFile = os.path.join(destDir, filename)
 	source = os.path.join(workingDir, asset, 'asset');
-
+	source2 = os.path.join(workingDir, asset, 'metaData');
+	destFile2 = os.path.join(destDir, filename + '.meta');
+	
 	if not os.path.exists(destDir):
 		os.makedirs(destDir)
 
 	shutil.move(source, destFile)
-	
+	shutil.move(source2, destFile2)
+		
 	# change file permissions for unix because under mac os x 
 	# (perhaps also other unix systems) all files are marked as executable
 	# for safety reasons os x prevent the access to the extracted files
